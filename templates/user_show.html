@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-xl">
+    {% if message %}
+        <h3 class="title alert alert-danger">{{ message }}</h3>
+    {% endif %}
+
+    <div class="user-section">
+        <div class="user-card">
+            <div class="row">
+                <div class="col-4">
+                    <div class="user-column-content">
+                        <div class="user-photo">
+                            <p><img class="user-photo" src="{{ url_for('static', filename=user.photo_url) }}" alt="User-photo"></p>
+                        </div>
+                        <div class="user-btn-group">
+                            {% if current_user.is_authenticated and current_user == user %}
+                                <a href="/user/edit" class="btn btn-100">Редактировать профиль</a>
+                                <a href="/user/edit/password" class="btn btn-100">Сменить пароль</a>
+                                <a href="/user/delete/image" class="btn btn-100">Удалить аватарку</a>
+                                <a class="btn btn-100" data-toggle="modal" data-target="#exampleModalCenter">Удалить профиль</a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalCenterTitle">Удаление профиля</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Если вы удалите свой профиль, все ваши статьи будут потеряны!
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Закрыть</a>
+                                                <a href="/user/delete" class="btn btn-outline-danger">Удалить</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="user-info">
+                        <h2>{{ user.surname }} {{ user.name }}</h2>
+                        <h6>О себе: {{ user.info }}</h6>
+                        <h6>Почта: {{ user.email }}</h6>
+                        <h6>Возраст: {{ user.age }}</h6>
+                        <h6>Город: {{ user.city_from }}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-create-article">
+        {% if current_user.is_authenticated and current_user == user %}
+        <a href="/articles/create" class="btn">Создать статью</a>
+        {% endif %}
+    </div>
+
+    <hr class="line-user">
+
+    <div class="articles-section">
+        <div class="article-content">
+            <!-- Сортировка тут -->
+            <form action="" method="post">
+                <div class="article-sort">
+                    <div class="row">
+                        <div class="category mr-4">
+                            <p>Категория</p>
+                            <select name="category_id" class="browser-default custom-select">
+                                {% for item in form['categories'] %}
+                                {% if form['selected'][0] == loop.index0 %}
+                                <option value="{{ loop.index0 }}" selected>{{ item }}</option>
+                                {% else %}
+                                <option value="{{ loop.index0 }}">{{ item }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="sort-by mr-4">
+                            <p>Сортировать по</p>
+                            <select name="sort_by" class="browser-default custom-select">
+                                {% for item in form['sort_list'] %}
+                                {% if form['selected'][1] == loop.index0 %}
+                                <option value="{{ loop.index0 }}" selected>{{ item }}</option>
+                                {% else %}
+                                <option value="{{ loop.index0 }}">{{ item }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="reverse">
+                            {% if form['selected'][2] == 0 %}
+                            <input type="radio" name="reverse" value="0" checked>по возрастанию
+                            {% else %}
+                            <input type="radio" name="reverse" value="0">по возрастанию
+                            {% endif %}
+                            {% if form['selected'][2] == 1 %}
+                            <input type="radio" name="reverse" value="1" checked>по убыванию
+                            {% else %}
+                            <input type="radio" name="reverse" value="1">по убыванию
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="submit" class="btn" value="Показать"/>
+                    </div>
+                </div>
+            </form>
+
+            {% if form['articles']|count > 0 %}
+            <div class="article-list mt-4">
+                {% for item in form['articles'] %}
+                <div class="card m-4" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ url_for('static', filename=item.photo_url) }}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <a href="/articles/show/{{ item.id }}" class="btn">Читать</a>
+
+                        {% if current_user.is_authenticated and current_user == user %}
+                        <a href="/articles/edit/{{ item.id }}" class="btn btn-outline-primary">Изменить</a>
+                        <a href="/articles/delete/{{ item.id }}" class="btn btn-outline-danger">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="not-found">
+                <p class="title">Ничего не найдено</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

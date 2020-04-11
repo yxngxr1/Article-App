@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="welcome">
+    <div class="container-xl content">
+        <p class="title">Article App</p>
+        <hr class="line-title">
+        <p class="description">Article App - сервис для размещения и поиска интересных статей</p>
+    </div>
+</section>
+
+<section class="about">
+    <div class="container-xl content">
+        <p class="title">Ваши возможности</p>
+        <hr class="line-title">
+        <p class="description">Ваши возможности ограничиваются только вашей фантазией</p>
+        <div class="about-list">
+            <div class="about-item">
+                <div class="item_img">
+                    <img src="{{ url_for('static', filename='img/site/user.png') }}" alt="image">
+                </div>
+                <div class="item_title">
+                    <p class="item_title">Настройте</p>
+                </div>
+                <div class="item_description">
+                    <p class="item_description">Настройте свой профиль и расскажите о себе</p>
+                </div>
+            </div>
+            <div class="about-item">
+                <div class="item_img">
+                    <img src="{{ url_for('static', filename='img/site/create.png') }}" alt="image">
+                </div>
+                <div class="item_title">
+                    <p class="item_title">Создавайте</p>
+                </div>
+                <div class="item_description">
+                    <p class="item_description">Создавайте интересные статьи, пишите о науке, кино или даже о играх</p>
+                </div>
+            </div>
+            <div class="about-item">
+                <div class="item_img">
+                    <img src="{{ url_for('static', filename='img/site/find.png') }}" alt="image">
+                </div>
+                <div class="item_title">
+                    <p class="item_title">Ищите</p>
+                </div>
+                <div class="item_description">
+                    <p class="item_description">Вы можете найти, что вас интересует, фильтровать и сортировать</p>
+                </div>
+            </div>
+            <div class="about-item">
+                <div class="item_img">
+                    <img src="{{ url_for('static', filename='img/site/read.png') }}" alt="image">
+                </div>
+                <div class="item_title">
+                    <p class="item_title">Читайте</p>
+                </div>
+                <div class="item_description">
+                    <p class="item_description">Читайте и еще раз читайте, повышайте или понижайте рейтинг</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if not current_user.is_authenticated %}
+<section class="register">
+    <div class="container-xl content">
+        <p class="description">Зарегистрируйтесь, или войдите... если у вас уже есть аккаунт)</p>
+        <div class="btn-group-register">
+            <a class="btn" href="/register">Зарегистрироваться</a>
+            <a class="btn" href="/login">Войти</a>
+        </div>
+    </div>
+</section>
+{% else %}
+<section class="thankyou">
+    <div class="container-xl content">
+        <p class="description">Вы: {{ current_user.surname }} {{ current_user.name }}</p>
+        <hr class="line-title">
+        <p class="description">И мы благодарим вас за использование нашего сервиса, желаем удачи и предлагаем создавать больше статей на нашем сайте :)</p>
+    </div>
+</section>
+
+{% endif %}
+
+{% endblock %}

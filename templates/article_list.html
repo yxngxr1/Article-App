@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-xl">
+    <h1 class="title">{{ title }}</h1>
+    <div class="articles-section">
+        <div class="article-content">
+            <!-- Сортировка тут -->
+            <form action="" method="post">
+                <div class="article-sort">
+                    <div class="row">
+                        <div class="category mr-4">
+                            <p>Категория</p>
+                            <select name="category_id" class="browser-default custom-select">
+                                {% for item in form['categories'] %}
+                                {% if form['selected'][0] == loop.index0 %}
+                                <option value="{{ loop.index0 }}" selected>{{ item }}</option>
+                                {% else %}
+                                <option value="{{ loop.index0 }}">{{ item }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="sort-by mr-4">
+                            <p>Сортировать по</p>
+                            <select name="sort_by" class="browser-default custom-select">
+                                {% for item in form['sort_list'] %}
+                                {% if form['selected'][1] == loop.index0 %}
+                                <option value="{{ loop.index0 }}" selected>{{ item }}</option>
+                                {% else %}
+                                <option value="{{ loop.index0 }}">{{ item }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="reverse">
+                            {% if form['selected'][2] == 0 %}
+                            <input type="radio" name="reverse" value="0" checked>по возрастанию
+                            {% else %}
+                            <input type="radio" name="reverse" value="0">по возрастанию
+                            {% endif %}
+                            {% if form['selected'][2] == 1 %}
+                            <input type="radio" name="reverse" value="1" checked>по убыванию
+                            {% else %}
+                            <input type="radio" name="reverse" value="1">по убыванию
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="submit" class="btn" value="Показать"/>
+                    </div>
+                </div>
+            </form>
+
+            {% if form['articles']|count > 0 %}
+            <div class="article-list mt-4">
+                {% for item in form['articles'] %}
+                <div class="card m-4" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ url_for('static', filename=item.photo_url) }}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <a href="/articles/show/{{ item.id }}" class="btn">Читать</a>
+
+                        {% if current_user.is_authenticated and current_user == user %}
+                        <a href="/articles/edit/{{ item.id }}" class="btn btn-outline-primary">Изменить</a>
+                        <a href="/articles/delete/{{ item.id }}" class="btn btn-outline-danger">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="not-found">
+                <p class="title">Ничего не найдено</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

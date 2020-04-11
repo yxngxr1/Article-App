@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="article-section">
+    <div class="container-xl">
+        <div class="article-body">
+            <div class="top-content">
+                <p class="title">{{ form.title }}</p>
+                <p class="description">{{ form.description }}</p>
+                <p class="creater">Написал: <a class="btn" href="/user/show/{{ form.user.id }}">{{ form.user.surname }} {{ form.user.name }}</a></p>
+                <div class="center">
+                    <div class="block">
+                        {% if form.is_private %}
+                            <p class="is-private" style="background: rgba(255,0,0,0.5)">Личное</p>
+                        {% else %}
+                            <p class="is-private" style="background: rgba(0,255,0,0.5)">Публичное</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="info">
+                    <div>
+                        <p class="created-date">Опубликовано: {{ form.created_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    </div>
+                    <div>
+                        <p class="views">Категория: {{ category }}</p>
+                    </div>
+                    <div>
+                        <p class="views">Просмотров: {{ form.views }}</p>
+                    </div>
+                    <div>
+                        <p class="likes">Рейтинг: {{ form.rating }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-content">
+              <p class="content">{{form.content}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

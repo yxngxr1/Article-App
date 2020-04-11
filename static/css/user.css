@@ -1,0 +1,56 @@
+.user-section {
+    width: 100%;
+}
+
+.user-card {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px 10px;
+    border-radius: 1em;
+    box-shadow: 0px 1px 15px 1px rgba(0,0,0,0.08);
+}
+
+.user-column-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-btn-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.line-user {
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.1);
+    height: 2px;
+    width: 70%;
+}
+
+.btn-create-article {
+    text-align: center;
+}
+
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-radius: 1em;
+    box-shadow: 0px 1px 15px 1px rgba(0,0,0,0.08);
+}
+
+.navbar-brand .user-photo {
+    width: 1.3em;
+}
+
+.user-column-content .user-photo {
+    width: 100%;
+}
+
+.btn-100 {
+    width: 100%
+}

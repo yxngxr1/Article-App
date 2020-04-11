@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-xl">
+    <h1 class="title">{{ title }}</h1>
+    <div class="user-list">
+      {% for item in form %}
+          <div class="card m-4" style="width: 18rem;">
+              <img class="card-img-top" src="{{ url_for('static', filename=item.photo_url) }}" alt="Card image cap">
+              <div class="card-body">
+                  <h5 class="card-title">{{ item.surname }} {{ item.name }}</h5>
+                  <p class="card-text">{{ item.info }}</p>
+                  <a href="/user/show/{{ item.id }}" class="btn">Посмотреть</a>
+              </div>
+          </div>
+      {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

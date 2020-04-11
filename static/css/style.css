@@ -1,0 +1,125 @@
+.title {
+    text-align: center;
+    margin: 20px 20px;
+}
+
+.dropdown-toggle::after {
+    border: none;
+}
+
+.btn {
+    margin: 0.3em;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 1em;
+    transition: all .1s ease-out;
+}
+
+.btn:hover {
+    box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.07);
+    transition: all .1s ease-out;
+}
+
+.btn:active {
+    box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.1);
+    transition: all .1s ease-out;
+}
+
+section {
+    padding: 150px 10px;
+}
+
+section .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+section p.title {
+    text-align: center;
+    font-size: 42px;
+    line-height: 48px;
+    letter-spacing: 0.1em;
+    color: #333333;
+}
+
+section p.description {
+    text-align: center;
+    font-size: 32px;
+    line-height: 48px;
+    letter-spacing: 0.04em;
+    color: #444444;
+}
+
+section p.little {
+    font-size: 24px;
+}
+
+section.welcome {
+    background: rgba(0,0,0,0.001);
+}
+
+section.about {
+    background: rgba(0,0,0,0.02);
+}
+
+.about .description {
+    font-size: 24px;
+    margin-bottom: 50px;
+}
+
+.about-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.about-item {
+    text-align: center;
+    margin: 20px 10px;
+    padding: 5px 5px;
+    width: 250px;
+}
+
+.about-item .item_img {
+    margin-bottom: 20px;
+}
+
+.about-item img {
+    height: 160px;
+}
+
+.about-item .item_title {
+    font-size: 36px;
+    letter-spacing: 0.04em;
+}
+
+.about-item .item_description {
+    font-size: 20px;
+    color: #666666;
+}
+
+section.register, section.login {
+    background: rgba(0,0,0,0.05);
+}
+
+section.register .btn-group-register {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+}
+
+section.thankyou {
+    background: rgba(0,0,0,0.05);
+}
+
+section .line-title {
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.1);
+    height: 2px;
+    width: 20%;
+    margin: 2rem auto;
+}
