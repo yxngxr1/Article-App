@@ -113,10 +113,10 @@
                         <div class="reverse">
                           <div class="btn-group btn-group-toggle" data-toggle="buttons">
                               <label class="btn btn-outline-primary {% if form['selected'][2] == 0 %} active {% endif %}">
-                                  <input type="radio" name="reverse" value="0" {% if form['selected'][2] == 0 %} checked {% endif %}> Прямая
+                                  <input type="radio" name="reverse" value="0" {% if form['selected'][2] == 0 %} checked {% endif %}>Возрастание
                               </label>
                               <label class="btn btn-outline-primary {% if form['selected'][2] == 1 %} active {% endif %}">
-                                  <input type="radio" name="reverse" value="1" {% if form['selected'][2] == 1 %} checked {% endif %}> Обратная
+                                  <input type="radio" name="reverse" value="1" {% if form['selected'][2] == 1 %} checked {% endif %}>Убывание
                               </label>
                           </div>
                         </div>
@@ -125,7 +125,7 @@
                     <div class="col-xl-3">
                         <div class="search-group">
                             <div class="search">
-                                <input type="text" name="search" class="form-control" value="{{ form['selected'][3] }}" placeholder="Личный ПоИсК..."/>
+                                <input type="text" name="search" class="form-control" value="{{ form['selected'][3] }}" placeholder="Я иду искать"/>
                             </div>
                             <div class="search-button">
                                 <input type="submit" class="btn" value="Показать"/>

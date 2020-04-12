@@ -35,7 +35,7 @@
             </div>
 
             <div class="bottom-content">
-                <p class="content">{{ article.content }}</p>
+                <p class="content">{{ article.content | replace('\n', '</br>') | safe  }}</p>
             </div>
         </div>
     </div>
