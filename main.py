@@ -55,12 +55,12 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template('index.html', title='Главная')
+    return render_template('index.html', title='Главная', url='/')
 
 
 @app.route('/about')
 def about():
-    return render_template('about.html', title='О нас')
+    return render_template('about.html', title='О проекте', url='/about')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -108,6 +108,7 @@ def logout():
 # Articles
 
 
+# получение значений из формы сортировки
 def get_sort_data():
     category_id = int(request.form.get('category_id'))
     sort_by = int(request.form.get('sort_by'))
@@ -154,17 +155,20 @@ def article_list():
         form['articles'] = list(filter(lambda x: x.is_private == False, form['articles']))
         form['selected'] = get_sort_data()
 
-    return render_template('article_list.html', title='Статьи', form=form)
+    return render_template('article_list.html', title='Статьи', form=form, url='/articles')
 
 
 @app.route('/articles/show/<int:article_id>')
 def article_show(article_id):
     session = db_session.create_session()
     article = session.query(Article).get(article_id)
+    title = article.title
     if article:
-        category = session.query(Category).get(article.category_id)
         if (article.is_private is False) or (article.user == current_user):
-            return render_template('article_show.html', title=article.title, form=article, category=category.name)
+            article.views += 1
+            session.commit()
+            category = session.query(Category).get(article.category_id)
+            return render_template('article_show.html', title=title, article=article, category=category)
         else:
             abort(403)
     else:
@@ -197,7 +201,7 @@ def article_create():
         user.articles.append(article)
         session.merge(user)
         session.commit()
-        return redirect(f'/user/show/{current_user.id}')
+        return redirect(f'/user/show/{ current_user.id }')
     return render_template('article_create.html', title='Создание статьи', form=form)
 
 
@@ -248,16 +252,16 @@ def article_edit(article_id):
     return render_template('article_edit.html', title='Редактирование статьи', form=form, article=article)
 
 
-@app.route('/articles/delete/<int:article_id>', methods=['GET', 'POST'])
+@app.route('/articles/delete/<int:article_id>')
 @login_required
 def article_delete(article_id):
     session = db_session.create_session()
     article = session.query(Article).get(article_id)
     if article:
         if current_user == article.user:
+            delete_file(article.photo_url)
             session.delete(article)
             session.commit()
-            delete_file(article.photo_url)
         else:
             abort(403)
     else:
@@ -265,7 +269,7 @@ def article_delete(article_id):
     return redirect(f'/user/show/{ current_user.id }')
 
 
-@app.route('/articles/delete/image/<int:article_id>', methods=['GET', 'POST'])
+@app.route('/articles/delete/image/<int:article_id>')
 @login_required
 def article_delete_image(article_id):
     session = db_session.create_session()
@@ -281,6 +285,7 @@ def article_delete_image(article_id):
         abort(404)
     return redirect(f'/user/show/{ current_user.id }')
 
+
 #######################################################################################################################
 # Users
 
@@ -290,7 +295,7 @@ def article_delete_image(article_id):
 def user_list():
     session = db_session.create_session()
     users = session.query(User)
-    return render_template('user_list.html', title='Все пользователи', form=users)
+    return render_template('user_list.html', title='Все пользователи', form=users, url='/users')
 
 
 @app.route('/user/show/<int:user_id>', methods=['GET', 'POST'])
@@ -350,7 +355,7 @@ def user_edit():
                 photo_url = user.photo_url
             if session.query(User).filter(User.email == form.email.data, form.email.data != user.email).first():
                 return render_template('user_edit.html', title='Редактирование профиля', form=form,
-                                       message="Пользователь с таким email уже есть")
+                                        message="Пользователь с таким email уже есть")
             user.email = form.email.data
             user.name = form.name.data
             user.surname = form.surname.data
@@ -362,7 +367,7 @@ def user_edit():
             return redirect(f'/user/show/{ current_user.id }')
         else:
             abort(404)
-    return render_template('user_edit.html', title='Редактирование профиля', form=form, message="")
+    return render_template('user_edit.html', title='Редактирование профиля', form=form)
 
 
 @app.route('/user/edit/password', methods=['GET', 'POST'])
@@ -374,13 +379,14 @@ def user_edit_password():
     if form.validate_on_submit():
         if user:
             if form.password.data != form.password_again.data:
-                return render_template('user_edit_password.html', title='Смена пароля', form=form, message="Пароли не совпадают")
+                return render_template('user_edit_password.html', title='Смена пароля', form=form,
+                                        message="Пароли не совпадают")
             user.set_password(form.password.data)
             session.commit()
             return redirect(f'/user/show/{ current_user.id }')
         else:
             abort(404)
-    return render_template('user_edit_password.html', title='Смена пароля', form=form, message="")
+    return render_template('user_edit_password.html', title='Смена пароля', form=form)
 
 
 @app.route('/user/delete', methods=['GET', 'POST'])
@@ -390,8 +396,8 @@ def user_delete():
     user = session.query(User).get(current_user.id)
     articles = session.query(Article).filter(Article.user == user)
     for item in articles:
-        session.delete(item)
         delete_file(item.photo_url)
+        session.delete(item)
     delete_file(current_user.photo_url)
     session.delete(user)
     session.commit()

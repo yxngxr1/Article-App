@@ -18,8 +18,8 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     city_from = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     photo_url = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
-
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+    
     articles = orm.relation("Article", back_populates='user')
 
     def set_password(self, password):

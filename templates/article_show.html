@@ -6,12 +6,12 @@
     <div class="container-xl">
         <div class="article-body">
             <div class="top-content">
-                <p class="title">{{ form.title }}</p>
-                <p class="description">{{ form.description }}</p>
-                <p class="creater">Написал: <a class="btn" href="/user/show/{{ form.user.id }}">{{ form.user.surname }} {{ form.user.name }}</a></p>
+                <p class="title">{{ article.title }}</p>
+                <p class="description">{{ article.description }}</p>
+                <p class="creater">Написал: <a class="btn" href="/user/show/{{ article.user.id }}">{{ article.user.surname }} {{ article.user.name }}</a></p>
                 <div class="center">
                     <div class="block">
-                        {% if form.is_private %}
+                        {% if article.is_private %}
                             <p class="is-private" style="background: rgba(255,0,0,0.5)">Личное</p>
                         {% else %}
                             <p class="is-private" style="background: rgba(0,255,0,0.5)">Публичное</p>
@@ -20,22 +20,22 @@
                 </div>
                 <div class="info">
                     <div>
-                        <p class="created-date">Опубликовано: {{ form.created_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <p class="created-date">Опубликовано: {{ article.created_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
                     </div>
                     <div>
-                        <p class="views">Категория: {{ category }}</p>
+                        <p class="views">Категория: {{ category.name }}</p>
                     </div>
                     <div>
-                        <p class="views">Просмотров: {{ form.views }}</p>
+                        <p class="views">Просмотров: {{ article.views }}</p>
                     </div>
                     <div>
-                        <p class="likes">Рейтинг: {{ form.rating }}</p>
+                        <p class="likes">Рейтинг: {{ article.rating }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="bottom-content">
-              <p class="content">{{form.content}}</p>
+              <p class="content">{{ article.content }}</p>
             </div>
         </div>
     </div>

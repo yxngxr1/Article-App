@@ -24,16 +24,17 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto change-active">
-                        <li class="nav-item active">
+
+                        <li class="nav-item {% if url == '/' %} active {% endif %}">
                             <a class="nav-link" href="/">Главная</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if url == '/articles' %} active {% endif %}">
                             <a class="nav-link" href="/articles">Статьи</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if url == '/users' %} active {% endif %}">
                             <a class="nav-link" href="/users">Юзеры</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if url == '/about' %} active {% endif %}">
                             <a class="nav-link" href="/about">О проекте</a>
                         </li>
                     </ul>
