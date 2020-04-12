@@ -1,3 +1,16 @@
+.error .title {
+    font-size: 32px;
+    color: #333333;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin: 2em auto;
+}
+
+textarea.form-control {
+    height: auto;
+    min-height: 4em;
+}
+
 .dropdown-toggle::after {
     border: none;
 }

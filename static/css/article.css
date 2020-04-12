@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     max-width: 1400px;
-    padding: 2em;
+    padding: 1em;
     margin: 0 auto;
 }
 
@@ -87,6 +87,11 @@
     box-shadow: 0px 1px 15px 1px rgba(0,0,0,0.08);
 }
 
+.bottom-content .content{
+    font-size: 20px;
+    color: #333333;
+}
+
 .article-sort {
     padding: 1em 1em;
     border-radius: 1em;
@@ -140,4 +145,28 @@
     letter-spacing: 0.1em;
     text-align: center;
     margin: 2em auto;
+}
+
+.article_form {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    padding: 2em;
+    margin: 2em auto;
+    border-radius: 1em;
+    background: rgba(0,0,0,0.02);
+}
+
+.article_form .title {
+  text-align: center;
+  font-size: 32px;
+  letter-spacing: 0.1em;
+  margin: 1rem 1rem;
+  color: #444444;
+}
+
+.article_form label {
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: #444444;
 }

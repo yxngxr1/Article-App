@@ -171,9 +171,9 @@ def article_list():
 def article_show(article_id):
     session = db_session.create_session()
     article = session.query(Article).get(article_id)
-    title = article.title
     if article:
         if (article.is_private is False) or (article.user == current_user):
+            title = article.title
             article.views += 1
             session.commit()
             category = session.query(Category).get(article.category_id)
