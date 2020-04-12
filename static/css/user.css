@@ -54,3 +54,27 @@
 .btn-100 {
     width: 100%
 }
+
+.user_form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    padding: 2em;
+    margin: 2em auto;
+    border-radius: 1em;
+    background: rgba(0,0,0,0.02);
+}
+
+.user_form .title {
+  text-align: center;
+  font-size: 32px;
+  letter-spacing: 0.1em;
+  margin: 1rem 1rem;
+  color: #444444;
+}
+
+.user_form label {
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: #444444;
+}

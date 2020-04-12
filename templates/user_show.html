@@ -66,15 +66,20 @@
     </div>
 
     <hr class="line-user">
+</div>
 
-    <div class="articles-section">
-        <div class="article-content">
-            <!-- Сортировка тут -->
-            <form action="" method="post">
-                <div class="article-sort">
-                    <div class="row">
-                        <div class="category mr-4">
-                            <p>Категория</p>
+<div class="articles-section">
+    <div class="article-content">
+        <!-- Сортировка тут -->
+        <form action="" method="post">
+            <div class="article-sort">
+                <div class="row">
+
+                    <div class="col-xl-3">
+                        <div class="category">
+                            <div class="text">
+                                <p>Категория:</p>
+                            </div>
                             <select name="category_id" class="browser-default custom-select">
                                 {% for item in form['categories'] %}
                                 {% if form['selected'][0] == loop.index0 %}
@@ -85,8 +90,13 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="sort-by mr-4">
-                            <p>Сортировать по</p>
+                    </div>
+
+                    <div class="col-xl-4">
+                        <div class="sort-by">
+                            <div class="text">
+                                <p>Сортировать по:</p>
+                            </div>
                             <select name="sort_by" class="browser-default custom-select">
                                 {% for item in form['sort_list'] %}
                                 {% if form['selected'][1] == loop.index0 %}
@@ -97,50 +107,63 @@
                                 {% endfor %}
                             </select>
                         </div>
+                    </div>
+
+                    <div class="col-xl-2">
                         <div class="reverse">
-                            {% if form['selected'][2] == 0 %}
-                            <input type="radio" name="reverse" value="0" checked>по возрастанию
-                            {% else %}
-                            <input type="radio" name="reverse" value="0">по возрастанию
-                            {% endif %}
-                            {% if form['selected'][2] == 1 %}
-                            <input type="radio" name="reverse" value="1" checked>по убыванию
-                            {% else %}
-                            <input type="radio" name="reverse" value="1">по убыванию
-                            {% endif %}
+                          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-outline-primary {% if form['selected'][2] == 0 %} active {% endif %}">
+                                  <input type="radio" name="reverse" value="0" {% if form['selected'][2] == 0 %} checked {% endif %}> Прямая
+                              </label>
+                              <label class="btn btn-outline-primary {% if form['selected'][2] == 1 %} active {% endif %}">
+                                  <input type="radio" name="reverse" value="1" {% if form['selected'][2] == 1 %} checked {% endif %}> Обратная
+                              </label>
+                          </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <input type="submit" class="btn" value="Показать"/>
-                    </div>
-                </div>
-            </form>
 
-            {% if form['articles']|count > 0 %}
-            <div class="article-list mt-4">
-                {% for item in form['articles'] %}
-                <div class="card m-4" style="width: 18rem;">
-                    <img class="card-img-top" src="{{ url_for('static', filename=item.photo_url) }}"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item.title }}</h5>
-                        <p class="card-text">{{ item.description }}</p>
-                        <a href="/articles/show/{{ item.id }}" class="btn">Читать</a>
-
-                        {% if current_user.is_authenticated and current_user == user %}
-                        <a href="/articles/edit/{{ item.id }}" class="btn btn-outline-primary">Изменить</a>
-                        <a href="/articles/delete/{{ item.id }}" class="btn btn-outline-danger">Удалить</a>
-                        {% endif %}
+                    <div class="col-xl-3">
+                        <div class="search-group">
+                            <div class="search">
+                                <input type="text" name="search" class="form-control" value="{{ form['selected'][3] }}" placeholder="Личный ПоИсК..."/>
+                            </div>
+                            <div class="search-button">
+                                <input type="submit" class="btn" value="Показать"/>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                {% endfor %}
             </div>
-            {% else %}
-            <div class="not-found">
-                <p class="title">Ничего не найдено</p>
-            </div>
-            {% endif %}
+        </form>
+
+        {% if form['articles']|count > 0 %}
+        <div class="article-count">
+            <p class="count">Результатов: {{ form['articles']|count }}</p>
         </div>
+        <div class="article-list">
+            {% for item in form['articles'] %}
+            <div class="card m-4" style="width: 18rem;">
+                <img class="card-img-top" src="{{ url_for('static', filename=item.photo_url) }}"
+                     alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                    <a href="/articles/show/{{ item.id }}" class="btn">Читать</a>
+
+                    {% if current_user.is_authenticated and current_user == user %}
+                    <a href="/articles/edit/{{ item.id }}" class="btn btn-outline-primary">Изменить</a>
+                    <a href="/articles/delete/{{ item.id }}" class="btn btn-outline-danger">Удалить</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="not-found">
+            <p class="title">Статей не найдено</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 

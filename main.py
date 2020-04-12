@@ -113,11 +113,12 @@ def get_sort_data():
     category_id = int(request.form.get('category_id'))
     sort_by = int(request.form.get('sort_by'))
     reverse = int(request.form.get('reverse'))
-    return [category_id, sort_by, reverse]
+    search = str(request.form.get('search'))
+    return [category_id, sort_by, reverse, search]
 
 
 def article_sort():
-    category_id, sort_by, reverse = get_sort_data()
+    category_id, sort_by, reverse, search = get_sort_data()
     session = db_session.create_session()
 
     # сортировка по значениям из модели
@@ -134,9 +135,17 @@ def article_sort():
     if category_id != 0:
         articles = list(filter(lambda x: x.category_id == category_id, articles))
 
-    # Задом наперед
+    # задом наперед
     if reverse == 1:
         articles.reverse()
+
+    # поиск по слову/ам
+    if len(search) != 0:
+        search = search.lower()
+        articles = list(filter(lambda x: ((search in x.title.lower()) or
+                                          (search in x.description.lower()) or
+                                          (search in x.content.lower())), articles))
+
     return articles
 
 
@@ -148,7 +157,7 @@ def article_list():
     form['articles'] = session.query(Article).filter(Article.is_private == False).all()
     form['categories'] = ['Все'] + article_category_list
     form['sort_list'] = article_sort_list
-    form['selected'] = [0, 0, 0]
+    form['selected'] = [0, 0, 0, '']
 
     if request.method == 'POST':
         form['articles'] = article_sort()
@@ -310,7 +319,7 @@ def user_show(user_id):
         form['articles'] = session.query(Article).filter(Article.user == user).all()
         form['categories'] = ['Все'] + article_category_list
         form['sort_list'] = article_sort_list
-        form['selected'] = [0, 0, 0]
+        form['selected'] = [0, 0, 0, '']
 
         if request.method == 'POST':
             form['articles'] = article_sort()

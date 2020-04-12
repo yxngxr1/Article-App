@@ -1,8 +1,3 @@
-.title {
-    text-align: center;
-    margin: 20px 20px;
-}
-
 .dropdown-toggle::after {
     border: none;
 }
