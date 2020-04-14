@@ -4,9 +4,6 @@
 
 <div class="container-xl">
     <div class="article_form">
-        {% if message %}
-        <h3 class="title alert alert-danger">{{ message }}</h3>
-        {% endif %}
         <h1 class="title">{{ title }}</h1>
         <form action="" method="post" class="login_form" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
@@ -57,6 +54,9 @@
             <p>{{ form.is_private() }} {{ form.is_private.label }}</p>
             <p>{{ form.submit(type="submit", class="btn") }}</p>
         </form>
+        {% if message %}
+            <h3 class="alert alert-danger">{{ message }}</h3>
+        {% endif %}
     </div>
 </div>
 

@@ -47,6 +47,28 @@ def create_img_url(id, type):
         return f'img/users/user_{id}_{random_int}.jpg'
 
 
+def valid_password(password):
+    message = ''
+    flag = True
+    if len(password) < 8:
+        message = 'Пароль должен быть больше 8 символов'
+        flag = False
+
+    if not any(s.isdigit() for s in password):
+        message = 'Пароль не содержит цифр'
+        flag = False
+
+    if not any(s.isupper() for s in password):
+        message = 'Пароль не содержит заглавных букв'
+        flag = False
+
+    if not any(s.islower() for s in password):
+        message = 'Пароль не содержит строчных букв'
+        flag = False
+
+    return [flag, message]
+
+
 @login_manager.user_loader
 def load_user(user_id):
     session = db_session.create_session()
@@ -70,6 +92,9 @@ def register():
         session = db_session.create_session()
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация', form=form, message="Пароли не совпадают")
+        is_valid_password, message = valid_password(form.password.data)
+        if not is_valid_password:
+            return render_template('register.html', title='Регистрация', form=form, message=message)
         if session.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html', title='Регистрация', form=form, message="Такой пользователь уже есть")
         user = User(
@@ -364,7 +389,7 @@ def user_edit():
                 photo_url = user.photo_url
             if session.query(User).filter(User.email == form.email.data, form.email.data != user.email).first():
                 return render_template('user_edit.html', title='Редактирование профиля', form=form,
-                                        message="Пользователь с таким email уже есть")
+                                       message="Пользователь с таким email уже есть")
             user.email = form.email.data
             user.name = form.name.data
             user.surname = form.surname.data
@@ -388,8 +413,10 @@ def user_edit_password():
     if form.validate_on_submit():
         if user:
             if form.password.data != form.password_again.data:
-                return render_template('user_edit_password.html', title='Смена пароля', form=form,
-                                        message="Пароли не совпадают")
+                return render_template('user_edit_password.html', title='Смена пароля', form=form, message="Пароли не совпадают")
+            is_valid_password, message = valid_password(form.password.data)
+            if not is_valid_password:
+                return render_template('user_edit_password.html', title='Регистрация', form=form, message=message)
             user.set_password(form.password.data)
             session.commit()
             return redirect(f'/user/show/{ current_user.id }')
