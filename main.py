@@ -10,6 +10,7 @@ from data import db_session
 from data.User import User
 from data.Article import Article
 from data.Category import Category
+from data.Vote import Vote
 
 from forms.article import ArticleForm
 from forms.login import LoginForm
@@ -45,6 +46,18 @@ def create_img_url(id, type):
         return f'img/articles/article_{id}_{random_int}.jpg'
     elif type == 'user':
         return f'img/users/user_{id}_{random_int}.jpg'
+
+
+def count_votes(article_id):
+    session = db_session.create_session()
+    votes = session.query(Vote).filter(Vote.article_id == article_id).all()
+    count = 0
+    for vote in votes:
+        if vote.vote == 'up':
+            count += 1
+        elif vote.vote == 'down':
+            count -= 1
+    return count
 
 
 def valid_password(password):
@@ -194,15 +207,50 @@ def article_list():
 
 @app.route('/articles/show/<int:article_id>')
 def article_show(article_id):
+    form = {}
     session = db_session.create_session()
     article = session.query(Article).get(article_id)
+    article.rating = count_votes(article.id)
+    session.commit()
     if article:
         if (article.is_private is False) or (article.user == current_user):
             title = article.title
             article.views += 1
             session.commit()
-            category = session.query(Category).get(article.category_id)
-            return render_template('article_show.html', title=title, article=article, category=category)
+            form['category'] = session.query(Category).get(article.category_id)
+            if current_user.is_authenticated:
+                form['current_user_vote'] = session.query(Vote).filter(Vote.article_id == article.id, Vote.user_id == current_user.id).first()
+                if form['current_user_vote']:
+                    form['current_user_vote'] = form['current_user_vote'].vote
+                else:
+                    form['current_user_vote'] = 'un'
+            return render_template('article_show.html', title=title, article=article, form=form)
+        else:
+            abort(403)
+    else:
+        abort(404)
+
+
+@app.route('/articles/vote/<int:article_id>/<string:vote>')
+@login_required
+def article_vote(article_id, vote):
+    session = db_session.create_session()
+    article = session.query(Article).get(article_id)
+    if article:
+        if (article.is_private is False) or (article.user == current_user):
+            exist_vote = session.query(Vote).filter(Vote.article_id == article.id, Vote.user_id == current_user.id).first()
+            if exist_vote:
+                if exist_vote.vote == vote:
+                    exist_vote.vote = 'un'
+                else:
+                    exist_vote.vote = vote
+            else:
+                vote = Vote(user_id=current_user.id,
+                            article_id=article.id,
+                            vote=vote)
+                session.add(vote)
+            session.commit()
+            return redirect(f'/articles/show/{ article.id }')
         else:
             abort(403)
     else:
@@ -431,8 +479,11 @@ def user_delete():
     session = db_session.create_session()
     user = session.query(User).get(current_user.id)
     articles = session.query(Article).filter(Article.user == user)
+    votes = session.query(Vote).filter(Vote.user_id == user.id)
     for item in articles:
         delete_file(item.photo_url)
+        session.delete(item)
+    for item in votes:
         session.delete(item)
     delete_file(current_user.photo_url)
     session.delete(user)

@@ -23,15 +23,20 @@
                         <p class="created-date">Опубликовано: {{ article.created_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
                     </div>
                     <div>
-                        <p class="category-name">Категория: {{ category.name }}</p>
+                        <p class="category-name">Категория: {{ form['category'].name }}</p>
                     </div>
                     <div>
                         <p class="views">Просмотров: {{ article.views }}</p>
                     </div>
-                    <div>
-                        <p class="rating">Рейтинг: {{ article.rating }}</p>
-                    </div>
                 </div>
+            </div>
+
+            <div class="article-vote">
+                <p class="btn rating">Рейтинг: {{ article.rating }}</p>
+                {% if current_user.is_authenticated %}
+                <a href="/articles/vote/{{ article.id }}/up" class="btn btn-outline-success btn-circle {% if form['current_user_vote'] == 'up' %} active {% endif %}">+</a>
+                <a href="/articles/vote/{{ article.id }}/down" class="btn btn-outline-danger btn-circle {% if form['current_user_vote'] == 'down' %} active {% endif %}">-</a>
+                {% endif %}
             </div>
 
             <div class="bottom-content">
