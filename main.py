@@ -181,8 +181,7 @@ def article_sort():
     if len(search) != 0:
         search = search.lower()
         articles = list(filter(lambda x: ((search in x.title.lower()) or
-                                          (search in x.description.lower()) or
-                                          (search in x.content.lower())), articles))
+                                          (search in x.description.lower())), articles))
 
     return articles
 
@@ -264,6 +263,7 @@ def article_create():
     session = db_session.create_session()
     user = session.query(User).get(current_user.id)
     form.category_id.choices = [[category.id, category.name] for category in session.query(Category).all()]
+
     if form.validate_on_submit():
         file = request.files['file']
         if file:
@@ -273,6 +273,7 @@ def article_create():
             file.save(path)
         else:
             photo_url = article_defoult_image
+
         article = Article(title=form.title.data,
                           description=form.description.data,
                           content=form.content.data,

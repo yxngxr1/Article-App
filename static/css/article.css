@@ -80,9 +80,6 @@
 }
 
 .article-body .bottom-content {
-    padding: 40px 40px;
-    border-radius: 1em;
-    box-shadow: 0px 1px 15px 1px rgba(0,0,0,0.08);
 }
 
 .bottom-content .content{
@@ -148,7 +145,7 @@
 .article_form {
     display: flex;
     flex-direction: column;
-    max-width: 800px;
+    max-width: 1140px;
     padding: 2em;
     margin: 2em auto;
     border-radius: 1em;
