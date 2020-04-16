@@ -26,17 +26,11 @@
                     </p>
                 {% endfor %}
             </p>
-            <p>
+            <div>
+                <label for="">Текст</label>
                 {{ form.content(style="height:0;width:0;opacity:0") }}
-                <p>Текст</p>
-                {% for error in form.description.errors %}
-                    <p class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </p>
-                {% endfor %}
-            </p>
-            <div id="summernote"></div>
-
+                <div id="summernote"></div>
+            </div>
             <p>
                 {{ form.category_id.label }}<br>
                 {{ form.category_id(class="form-control") }}

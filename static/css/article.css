@@ -78,6 +78,10 @@
     border-radius: 1em;
     box-shadow: 0 0 15px 1px rgba(0,0,0,0.1);
 }
+.rating {
+    margin: 0.4em auto;
+}
+
 
 .article-body .bottom-content {
 }
@@ -187,4 +191,16 @@
     height: 1em;
     padding: 0 0;
     border-radius: 20em;
+}
+
+.inner {
+    overflow: hidden;
+}
+
+.inner img {
+    transition: all 1.1s ease;
+}
+
+.inner:hover img {
+    transform: scale(1.1);
 }

@@ -181,8 +181,8 @@ def article_sort():
     if len(search) != 0:
         search = search.lower()
         articles = list(filter(lambda x: ((search in x.title.lower()) or
-                                          (search in x.description.lower())), articles))
-
+                                          (search in x.description.lower()) or
+                                          (search in x.content.lower())), articles))
     return articles
 
 
@@ -248,6 +248,8 @@ def article_vote(article_id, vote):
                             article_id=article.id,
                             vote=vote)
                 session.add(vote)
+            session.commit()
+            article.rating = count_votes(article.id)
             session.commit()
             return redirect(f'/articles/show/{ article.id }')
         else:
@@ -524,6 +526,7 @@ def not_found(error):
     return render_template('error.html', title='Ошибочка 404', message=message)
 
 
+# функция добавления списка категорий в базу данных
 def add_categories():
     session = db_session.create_session()
     categories = article_category_list
@@ -533,6 +536,7 @@ def add_categories():
     session.commit()
 
 
+# добавление категорий в новую базу данных
 def check_db():
     if not os.path.exists("db/data.db"):
         db_session.global_init("db/data.db")

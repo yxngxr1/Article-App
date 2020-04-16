@@ -77,14 +77,16 @@
         </div>
         <div class="article-list">
             {% for item in form['articles'] %}
-            <div class="card m-4" style="width: 18rem;">
-                <img class="card-img-top" src="{{ url_for('static', filename=item.photo_url) }}"
-                     alt="Card image cap">
-                <div class="card-body">
+            <div class="card m-4 shadow rounded" style="width: 20rem;">
+                <div class="inner">
+                    <img class="card-img-top" src="{{ url_for('static', filename=item.photo_url) }}" alt="Card image cap">
+                </div>
+                
+                <div class="card-body text-center">
                     <h5 class="card-title">{{ item.title }}</h5>
                     <p class="card-text">{{ item.description }}</p>
                     <a href="/articles/show/{{ item.id }}" class="btn">Читать</a>
-
+                    <p>Просмотров: {{ item.views }}</p>
                     {% if current_user.is_authenticated and current_user == user %}
                     <a href="/articles/edit/{{ item.id }}" class="btn btn-outline-primary">Изменить</a>
                     <a href="/articles/delete/{{ item.id }}" class="btn btn-outline-danger">Удалить</a>
