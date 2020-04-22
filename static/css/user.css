@@ -44,11 +44,24 @@
 }
 
 .navbar-brand .user-photo {
-    width: 1.3em;
+    width: 1.6em;
+    height: 1.6em;
+}
+
+.navbar-brand .user-photo img {
+    overflow: hidden;
+    object-fit: cover;
 }
 
 .user-column-content .user-photo {
     width: 100%;
+}
+
+.user-column-content .user-photo img {
+    width: 13rem;
+    height: 13rem;
+    overflow: hidden;
+    object-fit: cover;
 }
 
 .btn-100 {

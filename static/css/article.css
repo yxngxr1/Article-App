@@ -59,20 +59,18 @@
     justify-content: space-around;
 }
 
-.article-body .center {
+.center {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px
 }
 
-.article-body .block {
+.block {
     display: inline-block;
 }
 
-.article-body .is-private, .created-date, .category-name, .views, .rating {
+.is-private, .created-date, .category-name, .views, .rating {
     text-decoration: none;
     padding: 5px 12px;
-    margin: 10px 10px;
     font-size: 20px;
     color: #333333;
     border-radius: 1em;
@@ -203,4 +201,41 @@
 
 .inner:hover img {
     transform: scale(1.1);
+}
+
+.card {
+    transition: all 0.5s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0 15px 2px rgba(0,0,0,0.2);
+}
+
+.card-title {
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: #222222;
+}
+
+.card-text {
+    font-size: 18px;
+    letter-spacing: 0.01em;
+    color: #333333;
+    margin-bottom: 2rem;
+}
+
+.card-views {
+    font-size: 18px;
+    letter-spacing: 0.01em;
+    color: #333333;
+    margin-bottom: 0;
+}
+
+.card-hover {
+    transition: all 0.5s ease;
+}
+
+.card-hover:hover {
+    letter-spacing: 0.03em;
+    color: #000000;
 }

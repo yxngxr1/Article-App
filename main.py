@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, request, make_response, render_template, redirect, abort, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
@@ -194,7 +195,7 @@ def article_list():
     form['articles'] = session.query(Article).filter(Article.is_private == False).all()
     form['categories'] = ['Все'] + article_category_list
     form['sort_list'] = article_sort_list
-    form['selected'] = [0, 0, 0, '']
+    form['selected'] = [0, 0, 1, '']
 
     if request.method == 'POST':
         form['articles'] = article_sort()
@@ -395,7 +396,7 @@ def user_show(user_id):
         form['articles'] = session.query(Article).filter(Article.user == user).all()
         form['categories'] = ['Все'] + article_category_list
         form['sort_list'] = article_sort_list
-        form['selected'] = [0, 0, 0, '']
+        form['selected'] = [0, 0, 1, '']
 
         if request.method == 'POST':
             form['articles'] = article_sort()
