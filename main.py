@@ -171,8 +171,12 @@ def article_sort():
         articles = session.query(Article).order_by(Article.rating).all()
 
     # фильтр по категориям статей
-    if category_id != 0:
+    if category_id != 0 and category_id != 10:
         articles = list(filter(lambda x: x.category_id == category_id, articles))
+
+    # фильтр по личным статьям
+    if category_id == 10:
+        articles = list(filter(lambda x: x.is_private == True, articles))
 
     # задом наперед
     if reverse == 1:
@@ -195,7 +199,7 @@ def article_list():
     form['articles'] = session.query(Article).filter(Article.is_private == False).all()
     form['categories'] = ['Все'] + article_category_list
     form['sort_list'] = article_sort_list
-    form['selected'] = [0, 0, 1, '']
+    form['selected'] = [0, 0, 0, '']
 
     if request.method == 'POST':
         form['articles'] = article_sort()
@@ -394,9 +398,9 @@ def user_show(user_id):
 
     if user:
         form['articles'] = session.query(Article).filter(Article.user == user).all()
-        form['categories'] = ['Все'] + article_category_list
+        form['categories'] = ['Все'] + article_category_list + ['Личное']
         form['sort_list'] = article_sort_list
-        form['selected'] = [0, 0, 1, '']
+        form['selected'] = [0, 0, 0, '']
 
         if request.method == 'POST':
             form['articles'] = article_sort()
