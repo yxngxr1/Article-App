@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="api">
+    <div class="container-xl text-center mb-4">
+        <h2 class="title">Api Article App</h2>
+    </div>
+    <div class="container">
+        <h4 class="text-center">Получение данных статей</h4>
+        <ol class="api_text">
+            <li>
+                <h5 class="mb-4">Список статей</h5>
+                <div class="api_content">
+                    <h6>Для получения списка всех статей нужно совершить "get" запрос вида: <a href="/api/articles">/api/articles</a></h6>
+                    <h6>Ответ на запрос будет возвращен в Json формате со следующими полями обернутыми в "articles"</h6>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col-2">#</th>
+                                <th scope="col-2">Поле</th>
+                                <th scope="col-2">Тип</th>
+                                <th scope="col-6">Значение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>1</th>
+                                <td>id</td>
+                                <td>integer</td>
+                                <td>Уникальный идентификатор статьи, который указывается для обозначения и нахождения статей</td>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <td>title</td>
+                                <td>string</td>
+                                <td>Название статьи</td>
+                            </tr>
+                            <tr>
+                                <th>3</th>
+                                <td>description</td>
+                                <td>string</td>
+                                <td>Краткое описание статьи</td>
+                            </tr>
+                            <tr>
+                                <th>4</th>
+                                <td>user_id</td>
+                                <td>integer</td>
+                                <td>Уникальный идентификатор пользователя, создателя статьи</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+            <li>
+                <h5 class="mb-4">Данные одной статьи</h5>
+                <div class="api_content">
+                    <h6>Для получения подробной информации одной статьи нужно совершить "get" запрос вида: /api/articles/{ id - статьи }</h6>
+                    <h6>Например: <a href="/api/article/2">/api/articles/2</a></h6>
+                    <h6>Ответ на запрос будет возвращен в Json формате со следующими полями обернутыми в "article"</h6>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col-2">#</th>
+                                <th scope="col-2">Поле</th>
+                                <th scope="col-2">Тип</th>
+                                <th scope="col-6">Значение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>1</th>
+                                <td>id</td>
+                                <td>integer</td>
+                                <td>Уникальный идентификатор статьи</td>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <td>title</td>
+                                <td>string</td>
+                                <td>Название статьи</td>
+                            </tr>
+                            <tr>
+                                <th>3</th>
+                                <td>description</td>
+                                <td>string</td>
+                                <td>Краткое описание статьи</td>
+                            </tr>
+                            <tr>
+                                <th>4</th>
+                                <td>content</td>
+                                <td>string</td>
+                                <td>Тело статьи в формате html разметки</td>
+                            </tr>
+                            <tr>
+                                <th>5</th>
+                                <td>category_id</td>
+                                <td>integer</td>
+                                <td>Категория статьи. <i>Соответсвие id и названий категорий смотреть ниже</i></td>
+                            </tr>
+                            <tr>
+                                <th>6</th>
+                                <td>photo_url</td>
+                                <td>string</td>
+                                <td>Ссылка на картинку обложки статьи</td>
+                            </tr>
+                            <tr>
+                                <th>7</th>
+                                <td>created_date</td>
+                                <td>string</td>
+                                <td>Дата создания статьи в формате: YYYY-MM-DD hh:mm</td>
+                            </tr>
+                            <tr>
+                                <th>8</th>
+                                <td>is_private</td>
+                                <td>bool</td>
+                                <td>Значение, которое определяет, публичная статья или нет</td>
+                            </tr>
+                            <tr>
+                                <th>9</th>
+                                <td>rating</td>
+                                <td>integer</td>
+                                <td>Рейтинг статьи</td>
+                            </tr>
+                            <tr>
+                                <th>10</th>
+                                <td>views</td>
+                                <td>integer</td>
+                                <td>Количесвто просмотров статьи</td>
+                            </tr>
+                            <tr>
+                                <th>11</th>
+                                <td>user_id</td>
+                                <td>integer</td>
+                                <td>Уникальный идентификатор пользователя, создателя статьи</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="api_category">
+                        <h6>Соответсвие id и названий категорий</h6>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col-1">id</th>
+                                    <th scope="col-2">Название</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <td>Наука</td>
+                                </tr>
+                                <tr>
+                                    <th>2</th>
+                                    <td>Спорт</td>
+                                </tr>
+                                <tr>
+                                    <th>3</th>
+                                    <td>Игры</td>
+                                </tr>
+                                <tr>
+                                    <th>4</th>
+                                    <td>Программирование</td>
+                                </tr>
+                                <tr>
+                                    <th>5</th>
+                                    <td>Фильмы</td>
+                                </tr>
+                                <tr>
+                                    <th>6</th>
+                                    <td>Сериалы</td>
+                                </tr>
+                                <tr>
+                                    <th>7</th>
+                                    <td>Аниме</td>
+                                </tr>
+                                <tr>
+                                    <th>8</th>
+                                    <td>Обзоры</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock %}

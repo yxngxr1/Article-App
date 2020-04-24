@@ -136,3 +136,27 @@ section .line-title {
     width: 20%;
     margin: 2rem auto;
 }
+
+.api_text {
+    font-size: 20px;
+    color: #222222;
+}
+
+.api table {
+    font-size: 16px;
+    color: #000000;
+}
+
+.api .api_content {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.api li {
+    margin: 20px 0;
+}
+
+.api .api_category {
+    width: 30%;
+    margin: 10px auto;
+}

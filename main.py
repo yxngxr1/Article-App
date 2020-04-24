@@ -19,13 +19,20 @@ from forms.register import RegisterForm
 from forms.user_edit import UserEditForm
 from forms.user_edit_password import UserEditPasswordForm
 
+import articles_resource
+from flask_restful import Api
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'top_security'
+app.config['JSON_AS_ASCII'] = False
+api = Api(app)
+
+api.add_resource(articles_resource.ArticleListResource, '/api/articles')
+api.add_resource(articles_resource.ArticleResource, '/api/article/<int:article_id>')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 
 article_defoult_image = 'img/articles/article_defoult.jpg'
 user_defoult_image = 'img/users/user_defoult.jpg'
@@ -97,6 +104,11 @@ def index():
 @app.route('/about')
 def about():
     return render_template('about.html', title='О проекте', url='/about')
+
+
+@app.route('/api')
+def api():
+    return render_template('api.html', title='Api', url='/api')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -214,12 +226,11 @@ def article_show(article_id):
     form = {}
     session = db_session.create_session()
     article = session.query(Article).get(article_id)
-    article.rating = count_votes(article.id)
-    session.commit()
     if article:
         if (article.is_private is False) or (article.user == current_user):
             title = article.title
             article.views += 1
+            article.rating = count_votes(article.id)
             session.commit()
             form['category'] = session.query(Category).get(article.category_id)
             if current_user.is_authenticated:
@@ -514,13 +525,13 @@ def user_delete_image():
 
 
 @app.errorhandler(401)
-def error(error):
-    message = 'Необходима регистрация'
+def registration_required(error):
+    message = 'Требуется регистрация'
     return render_template('error.html', title='Ошибочка 401', message=message)
 
 
 @app.errorhandler(403)
-def error(error):
+def limited_access(error):
     message = 'Доступ ограничен'
     return render_template('error.html', title='Ошибочка 403', message=message)
 
