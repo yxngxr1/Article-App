@@ -33,7 +33,7 @@ tinydb==3.15.2
 tinydb-serialization==1.0.4
 tinymongo==0.2.0
 tornado==6.0.4
-urllib3==1.25.8
+urllib3==1.26.5
 vkapi==1.1
 Werkzeug==1.0.0
 wikipedia==1.4.0
